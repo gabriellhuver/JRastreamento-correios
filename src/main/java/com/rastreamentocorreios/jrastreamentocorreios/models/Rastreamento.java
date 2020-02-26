@@ -5,28 +5,25 @@
  */
 package com.rastreamentocorreios.jrastreamentocorreios.models;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+
 import java.util.List;
 
 /**
  *
  * @author Gabriell Huver
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@SuperBuilder
 public class Rastreamento {
 
     private List<Status> statusList;
 
-    public Rastreamento(List<Status> statusList) {
-        this.statusList = statusList;
-    }
-
-    public List<Status> getStatusList() {
-        return statusList;
-    }
-
-    public void setStatusList(List<Status> statusList) {
-        this.statusList = statusList;
-    }
-
-  
- 
 }
