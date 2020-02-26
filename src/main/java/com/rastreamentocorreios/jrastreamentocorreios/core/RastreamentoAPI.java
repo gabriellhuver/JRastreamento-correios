@@ -7,6 +7,7 @@ package com.rastreamentocorreios.jrastreamentocorreios.core;
 
 import com.rastreamentocorreios.jrastreamentocorreios.models.Rastreamento;
 import com.rastreamentocorreios.jrastreamentocorreios.models.Status;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,24 +28,26 @@ public class RastreamentoAPI {
     private static final DateFormat formatter = new SimpleDateFormat("MM/dd/yy-HH:mm");
 
     public Rastreamento Rastrear(String codigo) throws Exception {
-        Document doc = Jsoup.connect(BASE_URL + codigo).get();
+        Connection.Response execute = Jsoup.connect(BASE_URL + codigo).execute();
+        Document doc = execute.parse();
         Elements elementsByTag = doc.getElementsByClass("singlepost");
-        Elements statusElements = elementsByTag.get(0).getElementsByTag("ul");
         List<Status> statusList = new ArrayList<>();
-        for (Element statusElement: statusElements ) {
-            Status status =  new Status();
-            status.setStatus(statusElement.getElementsByTag("li").get(0).text());
-            status.setData(statusElement.getElementsByTag("li").get(1).text());
-            if(statusElement.getElementsByTag("li").get(2).text().contains("Local")){
-                status.setLocal(statusElement.getElementsByTag("li").get(2).text());
-            } else if(statusElement.getElementsByTag("li").get(2).text().contains("Origem") && statusElement.getElementsByTag("li").get(3).text().contains("Destino")) {
-                status.setOrigem(statusElement.getElementsByTag("li").get(2).text());
-                status.setDestino(statusElement.getElementsByTag("li").get(3).text());
+        if(elementsByTag.size() != 0){
+            Elements statusElements = elementsByTag.get(0).getElementsByTag("ul");
+            for (Element statusElement: statusElements ) {
+                Status status =  new Status();
+                status.setStatus(statusElement.getElementsByTag("li").get(0).text());
+                status.setData(statusElement.getElementsByTag("li").get(1).text());
+                if(statusElement.getElementsByTag("li").get(2).text().contains("Local")){
+                    status.setLocal(statusElement.getElementsByTag("li").get(2).text());
+                } else if(statusElement.getElementsByTag("li").get(2).text().contains("Origem") && statusElement.getElementsByTag("li").get(3).text().contains("Destino")) {
+                    status.setOrigem(statusElement.getElementsByTag("li").get(2).text());
+                    status.setDestino(statusElement.getElementsByTag("li").get(3).text());
+                }
+                statusList.add(status);
             }
-            statusList.add(status);
         }
-
-        return Rastreamento.builder().statusList(statusList).build();
+        return Rastreamento.builder().statusList(statusList).statusCode(execute.statusCode()).build();
     }
 
 

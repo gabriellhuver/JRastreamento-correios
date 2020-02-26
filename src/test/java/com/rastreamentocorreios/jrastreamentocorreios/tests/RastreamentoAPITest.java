@@ -8,6 +8,7 @@ package com.rastreamentocorreios.jrastreamentocorreios.tests;
 import com.rastreamentocorreios.jrastreamentocorreios.core.RastreamentoAPI;
 import com.rastreamentocorreios.jrastreamentocorreios.models.Rastreamento;
 import com.rastreamentocorreios.jrastreamentocorreios.models.Status;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.logging.Level;
@@ -19,13 +20,15 @@ import java.util.logging.Logger;
  */
 public class RastreamentoAPITest {
     @Test
-    public void test() {
+    public void TestRequestOk() {
         RastreamentoAPI rastreamento =  new RastreamentoAPI();
         try {
-            Rastreamento Rastrear = rastreamento.Rastrear("LB277957266SE");
-            for (Status status : Rastrear.getStatusList()) {
+            Rastreamento rastreio = rastreamento.Rastrear("testRequest");
+            System.out.println(rastreio.getStatusCode());
+            for (Status status : rastreio.getStatusList()) {
                 System.out.println(status.toString());
             }
+            Assert.assertEquals((Integer)rastreio.getStatusCode(),(Integer)200);
         } catch (Exception ex) {
             Logger.getLogger(RastreamentoAPITest.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -25,5 +25,5 @@ import java.util.List;
 public class Rastreamento {
 
     private List<Status> statusList;
-
+    private Integer statusCode;
 }
