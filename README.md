@@ -1,17 +1,7 @@
 ### JRastreamento-correios
 Biblioteca em java para o rastreamento de objetos
 * Faz web scrap na pagina de rastreamento do correios [linkcorreios](https://www.linkcorreios.com.br/ "Correios")
-
-### Download
-* JRastreamentoCorreios-1.0-SNAPSHOT.jar [Download](https://github.com/gabriellhuver/JRastreamento-correios/blob/master/target/JRastreamentoCorreios-1.0-SNAPSHOT.jar "JRastreamento correios")
-* Precisa da biblioteca JSOUP
-```xml
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
-        </dependency>
-```
+* Utiliza da biblioteca JSOUP
 
 ### Como usar
 A API tem só um método, rastreamento.Rastrear("CODIGO"), ele retorna um rastreamento contendo uma lista de status, ordenado do mais antigo para o mais atual.
